@@ -1,22 +1,28 @@
 # SciOpsContainer
 
-This repository describes a method for deploying R/Python products as Docker containers on AWS.
+This repository describes a method for deploying R/Python containers. We will deploy two containers:
+* Base application image- The core application image required for production deployment.
+* Dev image- Layered atop the base application image, provides Data Scientists with a development environment that mirrors the production environment.
 
-# Install Docker
+# Environment Setup
+## Install Docker
 For Ubuntu 16.04, refer to [LINK](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
+
+# Container Provisioning
+
+
+# Build the Container
+Build the containers using:
 ```
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-$ sudo apt-get update
-$ apt-cache policy docker-ce
-$ sudo apt-get install -y docker-ce
-```
-Also give Docker sudo permissions on your user
-```
-sudo usermod -aG docker ${USER}
-su - ${USER}
+docker build -t appbase .
 ```
 
-# Install Packer
-Get the Packer binaries for your OS, unzip the file and point to the directory in PATH.
-* [LINK](https://www.packer.io/downloads.html) to binaries
+
+# Run the Container
+To run the container:
+```
+docker run -ti -v /c/DataScience/SciOpsContainer:/usr/local/src/myscripts --rm appbase:latest
+```
+-ti will run an interactive session, while --rm closes the container when the task is finished.
+
+# Build the dev environment over top
